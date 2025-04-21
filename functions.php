@@ -21,6 +21,8 @@ function getAllData($table, $where = null, $values = null)
    }
    return $count;
 }
+
+
 function insertData($table, $data, $json = true)
 {
    global $con;
@@ -145,19 +147,27 @@ function checkAuthenticate()
    }
 }
 
-function printFailure($msg)
+function printFailure($msg="null")
 {
-   echo json_encode(array("status" => "failure", "msg" => $msg));
-   exit;
+   echo json_encode(array("status" => "failure", "message" => $msg));
+  
 }
-function printSuccess($msg)
+function printSuccess($msg="null")
 {
-   echo json_encode(array("status" => "success", "msg" => $msg));
-   exit;
+   echo json_encode(array("status" => "success", "message" => $msg));
+   
 }
 
-function sendEmail($to, $title, $body,$header)
+function result($count){
+   if ($count > 0){
+    printSuccess() ; 
+   }else {
+    printFailure()  ; 
+   }
+}
+
+function sendEmail($to, $title, $body)
 {
- //  $header = "From: support@waelabohamza.com " . "\n" . "CC: waeleagle1243@gmail.com";
+   $header = "From: support@abdullah.com " . "\n" . "CC: waeleagle1243@gmail.com";
    mail($to, $title, $body, $header);
 }

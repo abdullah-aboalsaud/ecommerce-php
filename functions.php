@@ -22,6 +22,21 @@ function getAllData($table, $where = null, $values = null)
    return $count;
 }
 
+function getData($table, $where = null, $values = null)
+{
+   global $con;
+   $data = array();
+   $stmt = $con->prepare("SELECT  * FROM $table WHERE   $where ");
+   $stmt->execute($values);
+   $data = $stmt->fetch(PDO::FETCH_ASSOC);
+   $count  = $stmt->rowCount();
+   if ($count > 0) {
+      echo json_encode(array("status" => "success", "data" => $data));
+   } else {
+      echo json_encode(array("status" => "failure"));
+   }
+   return $count;
+}
 
 function insertData($table, $data, $json = true)
 {
@@ -147,22 +162,21 @@ function checkAuthenticate()
    }
 }
 
-function printFailure($msg="null")
+function printFailure($msg = "null")
 {
    echo json_encode(array("status" => "failure", "message" => $msg));
-  
 }
-function printSuccess($msg="null")
+function printSuccess($msg = "null")
 {
    echo json_encode(array("status" => "success", "message" => $msg));
-   
 }
 
-function result($count){
-   if ($count > 0){
-    printSuccess() ; 
-   }else {
-    printFailure()  ; 
+function result($count)
+{
+   if ($count > 0) {
+      printSuccess();
+   } else {
+      printFailure();
    }
 }
 
